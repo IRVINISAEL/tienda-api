@@ -1,0 +1,11 @@
+services:
+  api:
+    image: ${IMAGE}
+    ports: ["80:3000"]
+    environment:
+      - NODE_ENV=production
+      - APP_VERSION=${APP_VERSION}
+    restart: always
+    deploy:
+      resources:
+        limits: { cpus: "0.50", memory: 256M }

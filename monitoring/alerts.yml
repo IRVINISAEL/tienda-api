@@ -1,0 +1,15 @@
+groups:
+  - name: sla
+    rules:
+      - alert: ApiCaida
+        expr: up{job="tienda-api"} == 0
+        for: 1m
+        labels: { severity: critical }
+      - alert: LatenciaP95Alta
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels: { severity: warning }
+      - alert: TasaErrores5xx
+        expr: sum(rate(http_request_duration_seconds_count{status=~"5.."}[5m])) / sum(rate(http_request_duration_seconds_count[5m])) > 0.01
+        for: 5m
+        labels: { severity: critical }
